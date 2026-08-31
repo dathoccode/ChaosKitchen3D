@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KitchenObjectSO
   prefab: {fileID: 7823926028835901591, guid: ea9ec833616a4c349b4a769d33d4fb86, type: 3}
   sprite: {fileID: 21300000, guid: da2d04fe27b94e34ea0b624569b48a6f, type: 3}
-  name: Cheese Block
+  objectName: CheeseBlock
