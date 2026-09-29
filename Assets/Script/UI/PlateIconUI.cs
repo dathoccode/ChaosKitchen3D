@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlateIconUI : MonoBehaviour
+public class PlateIconUI : BaseUI
 {
     [SerializeField] private Plate plate;
     [SerializeField] Transform plateIconPrefab;
@@ -25,7 +25,7 @@ public class PlateIconUI : MonoBehaviour
         foreach (KitchenObjectSO kitchenObjectSO in plate.GetKitchenObjectSOInPlate())
         {
             Transform plateIcon = Instantiate(plateIconPrefab, transform);
-            plateIcon.GetComponent<PlateIconPrefab>().SetKitchenObjectSO(kitchenObjectSO);
+            plateIcon.GetComponent<IconPrefab>().SetKitchenObjectSO(kitchenObjectSO);
         }
     }
 }

@@ -5,6 +5,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 {
     public static Player Instance { get; private set; }
 
+    public event EventHandler OnPickSomethingUp;
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
@@ -12,7 +13,6 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     }
 
 
-    [SerializeField] private GameInput gameInput;
     [SerializeField] LayerMask counterLayerMask;
 
 
@@ -38,13 +38,14 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         Instance = this;
     }
     private void Start()
-    {       
-        gameInput.OnInteractAction += GameInput_OnInteractAction;
-        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
+    {
+        GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+        GameInput.Instance.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }
 
     private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
         if (selectedCounter != null)
         {
             selectedCounter.InteractAlternate(this);
@@ -53,6 +54,8 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void GameInput_OnInteractAction(object sender, EventArgs e)
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
+
         if (selectedCounter != null)
         {
             selectedCounter.Interact(this);
@@ -61,13 +64,19 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGamePlaying())
+        {
+            isWalking = false;
+            return;
+        }
+
         HandleMovement();
         HandleInteractions();
     }
 
     private void HandleMovement()
     {
-        Vector3 moveDir = gameInput.GetMovementVector().normalized;
+        Vector3 moveDir = GameInput.Instance.GetMovementVector().normalized;
         moveDir = new Vector3(moveDir.x, 0f, moveDir.y);
         isWalking = false;
 
@@ -116,7 +125,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void HandleInteractions()
     {
-        Vector3 moveDir = gameInput.GetMovementVector().normalized;
+        Vector3 moveDir = GameInput.Instance.GetMovementVector().normalized;
         moveDir = new Vector3(moveDir.x, 0f, moveDir.y);
 
         bool isInteracting = Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, interactDistance, counterLayerMask);
@@ -154,6 +163,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitchenObject kitchenObject)
     {
         this.kitchenObject = kitchenObject;
+        if (kitchenObject != null)
+        {
+            OnPickSomethingUp?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public KitchenObject GetKitchenObject()

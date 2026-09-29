@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlateIconPrefab : MonoBehaviour
+public class IconPrefab : BaseUI
 {
     [SerializeField] private Image background;
     [SerializeField] private Image icon;

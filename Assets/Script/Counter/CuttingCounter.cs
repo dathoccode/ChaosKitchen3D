@@ -2,7 +2,14 @@ using System;
 using UnityEngine;
 
 public class CuttingCounter : BaseCounter, IHasProgress
-{   
+{
+    public static event EventHandler OnAnyCut;
+
+    new public static void ResetStaticData()
+    {
+        OnAnyCut = null;
+    }
+
     public event EventHandler OnCut;
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
@@ -71,6 +78,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
 
                 // Player is not carrying a kitchen object, pick up the kitchen object from the counter
                 OnCut?.Invoke(this, EventArgs.Empty);
+                OnAnyCut?.Invoke(this, EventArgs.Empty);
                 UpdateCuttingProgress(cuttingProgress + 1);
                 CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOFromIput(GetKitchenObject().GetKitchenObjectSO());
                 if (cuttingProgress >= cuttingRecipeSO.cuttingProgressMax)
