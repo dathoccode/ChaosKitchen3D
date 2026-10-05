@@ -4936,7 +4936,7 @@ MonoBehaviour:
   exitButton: {fileID: 1101948152}
   soundEffectText: {fileID: 251693539}
   musicText: {fileID: 699962395}
-  rebindUI: {fileID: 734510127}
+  rebindUI: {fileID: 0}
   moveUpButtonText: {fileID: 105765256}
   moveDownButtonText: {fileID: 1610188079}
   moveLeftButtonText: {fileID: 978786768}
