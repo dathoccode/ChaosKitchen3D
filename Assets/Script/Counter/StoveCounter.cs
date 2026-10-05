@@ -88,10 +88,6 @@ public class StoveCounter : BaseCounter, IHasProgress
                     fryingTimer = 0f;
                     SwitchState(State.Frying);
                 }
-                else
-                {
-                    Debug.Log("Cant put unsuitable kitchen object here");
-                }
             }
         }
         else

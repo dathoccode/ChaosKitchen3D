@@ -20,6 +20,8 @@ public class MainMenuUI : BaseUI
         }); 
 
         Time.timeScale = 1f;
+
+        playButton.Select();
     }
 
   

@@ -22,6 +22,9 @@ public class OptionsUI : BaseUI
     [SerializeField] private TextMeshProUGUI interactButtonText;
     [SerializeField] private TextMeshProUGUI alternateInteractButtonText;
     [SerializeField] private TextMeshProUGUI pauseButtonText;
+    [SerializeField] private TextMeshProUGUI gamepadInteractButtonText;
+    [SerializeField] private TextMeshProUGUI gamepadAlternateInteractButtonText;
+    [SerializeField] private TextMeshProUGUI gamepadPauseButtonText;
 
     [SerializeField] private Button moveUpButton;
     [SerializeField] private Button moveDownButton;
@@ -30,6 +33,9 @@ public class OptionsUI : BaseUI
     [SerializeField] private Button interactButton;
     [SerializeField] private Button alternateInteractButton;
     [SerializeField] private Button pauseButton;
+    [SerializeField] private Button gamepadInteractButton;
+    [SerializeField] private Button gamepadAlternateInteractButton;
+    [SerializeField] private Button gamepadPauseButton;
 
 
     private void Awake()
@@ -88,6 +94,21 @@ public class OptionsUI : BaseUI
         {
             RebindBinding(GameInput.Binding.Pause);
         });
+
+        gamepadInteractButton.onClick.AddListener(() =>
+        {
+            RebindBinding(GameInput.Binding.Gamepad_Interact);
+        });
+
+        gamepadAlternateInteractButton.onClick.AddListener(() =>
+        {
+            RebindBinding(GameInput.Binding.Gamepad_InteractAlternate);
+        });
+
+        gamepadPauseButton.onClick.AddListener(() =>
+        {
+            RebindBinding(GameInput.Binding.Gamepad_Pause);
+        });
     }
 
     private void Start()
@@ -115,6 +136,9 @@ public class OptionsUI : BaseUI
         interactButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
         alternateInteractButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.InteractAlternate);
         pauseButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
+        gamepadInteractButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact);
+        gamepadAlternateInteractButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_InteractAlternate);
+        gamepadPauseButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Pause);
 
         // prevent buttons from displaying too long text
         moveUpButtonText.text = moveUpButtonText.text.Substring(0, Mathf.Min(moveUpButtonText.text.Length, 3));
@@ -124,6 +148,9 @@ public class OptionsUI : BaseUI
         interactButtonText.text = interactButtonText.text.Substring(0, Mathf.Min(interactButtonText.text.Length, 3));
         alternateInteractButtonText.text = alternateInteractButtonText.text.Substring(0, Mathf.Min(alternateInteractButtonText.text.Length, 3));
         pauseButtonText.text = pauseButtonText.text.Substring(0, Mathf.Min(pauseButtonText.text.Length, 3));
+        gamepadInteractButtonText.text = gamepadInteractButtonText.text.Substring(0, Mathf.Min(gamepadInteractButtonText.text.Length, 3));
+        gamepadAlternateInteractButtonText.text = gamepadAlternateInteractButtonText.text.Substring(0, Mathf.Min(gamepadAlternateInteractButtonText.text.Length, 3));
+        gamepadPauseButtonText.text = gamepadPauseButtonText.text.Substring(0, Mathf.Min(gamepadPauseButtonText.text.Length, 3));
     }
 
     private void ShowRebindUI()
@@ -144,6 +171,12 @@ public class OptionsUI : BaseUI
             HideRebindUI();
             UpdateVisual();
         });
+    }
+
+    public override void Show()
+    {
+        base.Show();
+        soundEffectButton.Select();
     }
 }
 

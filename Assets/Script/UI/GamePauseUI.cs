@@ -37,6 +37,12 @@ public class GamePauseUI : BaseUI
        Hide();
     }
 
+    public override void Show()
+    {
+        base.Show();
+        resumeButton.Select(); 
+    }
+
     private void GameManager_OnGamePaused(object sender, System.EventArgs e)
     {
         Show();

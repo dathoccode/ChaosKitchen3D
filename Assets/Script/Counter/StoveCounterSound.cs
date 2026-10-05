@@ -17,7 +17,7 @@ public class StoveCounterSound : MonoBehaviour
 
     private void StoveCounter_OnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
     {
-        audioSource.volume = MusicManager.Instance.GetVolume();
+        audioSource.volume = SoundManager.Instance.GetVolume();
         bool playSound = e.state == StoveCounter.State.Frying || e.state == StoveCounter.State.Burning;
         if (playSound)
         {

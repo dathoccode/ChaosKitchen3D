@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4724936845075837660, guid: 73eb32e27385ccc4f865dd2e5bc06c16, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.357
+      objectReference: {fileID: 0}
     - target: {fileID: 7436874368001863103, guid: 73eb32e27385ccc4f865dd2e5bc06c16, type: 3}
       propertyPath: m_Name
       value: ClearCounter
