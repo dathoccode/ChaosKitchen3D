@@ -75,9 +75,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-
-   
-
     public float GetCountdownToStartTimer()
     {
         return countdownToStartTimer;
