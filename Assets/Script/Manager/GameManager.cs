@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     private enum State
     {
-        Paused,
+        Ready,
         CountdownToStart,
         Playing,
         GameOver
@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
 
     private State state;
     private float waitingToStartTimer = 0f;
-    private float countdownToStartTimer = 3f;
+    private float countdownToStartTimeMax = 3f;
+    private float countdownToStartTimer;
     [SerializeField] private float gamePlayingTimerMax = 25f;
     private float gamePlayingTimer;
     private bool isGamePaused = false;
@@ -26,24 +27,21 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        state = State.Paused;
+        state = State.Ready;
     }
 
     private void Start()
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
-    }
-
-    private void GameInput_OnPauseAction(object sender, EventArgs e)
-    {
-        TogglePauseGame();
+        StartNewGame();
     }
 
     private void Update()
     {
+        if (isGamePaused) return;
         switch (state)
         {
-            case State.Paused:
+            case State.Ready:
                 waitingToStartTimer -= Time.deltaTime;
                 if (waitingToStartTimer <= 0f)
                 {
@@ -75,6 +73,12 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
+    private void GameInput_OnPauseAction(object sender, EventArgs e)
+    {
+        TogglePauseGame();
+    }
+    
     public float GetCountdownToStartTimer()
     {
         return countdownToStartTimer;
@@ -119,6 +123,15 @@ public class GameManager : MonoBehaviour
             OnGameUnpaused?.Invoke(this, EventArgs.Empty);
         }
             
+    }
+
+    public void StartNewGame()
+    {
+        Time.timeScale = 1f;
+        state = State.Ready;
+        countdownToStartTimer = countdownToStartTimeMax;
+        gamePlayingTimer = 0;
+        isGamePaused = false;
     }
 }
 
