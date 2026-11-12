@@ -2,6 +2,8 @@
 
 **Chaos Kitchen 3D** là tựa game mô phỏng nấu ăn góc nhìn thứ ba (lấy cảm hứng từ *Overcooked!*) được phát triển bằng **Unity 6 (URP)**. Trong game, người chơi vào vai một đầu bếp bận rộn, di chuyển trong gian bếp, sơ chế nguyên liệu, nấu nướng, bày biện món ăn lên đĩa và giao hàng đúng theo thực đơn yêu cầu trước khi hết giờ.
 
+## 🎬 Demo Video
+- Xem video demo: [YouTube Demo](https://youtu.be/bE-OQJfp-BI)
 ---
 
 ## ✨ Các chức năng chính (Key Features)
@@ -97,13 +99,3 @@ Assets/
 
 ---
 
-## 🚀 Hướng dẫn cài đặt và chạy dự án (Getting Started)
-
-1. **Clone hoặc tải về** repository này:
-   ```bash
-   git clone <repository-url>
-   ```
-2. Mở **Unity Hub**, chọn **Add** → **Add project from disk** và trỏ tới thư mục gốc của dự án.
-3. Mở dự án bằng phiên bản **Unity 6 (`6000.3.6f1`)** hoặc phiên bản tương thích.
-4. Trong cửa sổ Project, mở scene tại đường dẫn `Assets/Scenes/MainMenuScene.unity` (hoặc `GameScene.unity`).
-5. Nhấn nút **Play (▶)** trên thanh công cụ của Unity Editor để bắt đầu trải nghiệm.
