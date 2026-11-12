@@ -88,45 +88,61 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
 
         float moveDistance = moveSpeed * Time.deltaTime;
-        Vector3 playerBottom = transform.position + Vector3.up * playerRadius;
-        Vector3 playerTop = transform.position + Vector3.up * (playerHeight - playerRadius);
+        Vector3 targetMoveDir = moveDir;
 
-        bool canMove = !Physics.CapsuleCast(playerBottom, playerTop, 
-            playerRadius, moveDir, moveDistance, counterLayerMask);
+        bool canMove = CanMove(targetMoveDir, moveDistance);
 
         if (!canMove)
         {
             //try move only in the X direction
             Vector3 moveDirX = new Vector3(moveDir.x, 0f, 0f).normalized;
-            canMove = Mathf.Abs(moveDir.x) > .2f && !Physics.CapsuleCast(playerBottom, playerTop, 
-                playerRadius, moveDirX, moveDistance, counterLayerMask);
+            float moveDistanceX = Mathf.Abs(moveDir.x) * moveDistance;
+            canMove = Mathf.Abs(moveDir.x) > .1f && CanMove(moveDirX, moveDistanceX);
 
             if (canMove)
             {
-                moveDir = moveDirX;
+                targetMoveDir = moveDirX;
+                moveDistance = moveDistanceX;
             }
             else
             {
                 Vector3 moveDirZ = new Vector3(0f, 0f, moveDir.z).normalized;
-                canMove = Mathf.Abs(moveDir.z) > .2f && !Physics.CapsuleCast(playerBottom, playerTop, 
-                    playerRadius, moveDirZ, moveDistance, counterLayerMask);
+                float moveDistanceZ = Mathf.Abs(moveDir.z) * moveDistance;
+                canMove = Mathf.Abs(moveDir.z) > .1f && CanMove(moveDirZ, moveDistanceZ);
                 if (canMove)
                 {
-                    moveDir = moveDirZ;
+                    targetMoveDir = moveDirZ;
+                    moveDistance = moveDistanceZ;
                 }
             }
         }
 
         if (canMove)
         {
-            transform.position += moveDir * moveDistance;
+            transform.position += targetMoveDir * moveDistance;
         }
 
-        isWalking = canMove && moveDir != Vector3.zero;
-        if (moveDir != Vector3.zero)
+        isWalking = canMove && targetMoveDir != Vector3.zero;
+        if (targetMoveDir != Vector3.zero)
         {
-            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+            transform.forward = Vector3.Slerp(transform.forward, targetMoveDir, Time.deltaTime * rotateSpeed);
         }
+    }
+
+    private bool CanMove(Vector3 dir, float distance)
+    {
+        const float skinWidth = 0.02f;
+        Vector3 playerBottom = transform.position + Vector3.up * playerRadius;
+        Vector3 playerTop = transform.position + Vector3.up * (playerHeight - playerRadius);
+
+        return !Physics.CapsuleCast(
+            playerBottom,
+            playerTop,
+            playerRadius - skinWidth,
+            dir,
+            distance + skinWidth,
+            counterLayerMask
+        );
     }
 
     private void HandleInteractions()
